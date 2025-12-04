@@ -1,13 +1,28 @@
+"""Construtor de XML no padrão ABRASF para NFSe.
+
+Gera XML compatível com o padrão da Associação Brasileira das Secretarias
+de Finanças das Capitais (ABRASF) versão 2.x.
+"""
+
 import xml.etree.ElementTree as ET
 from models.nfse import NFSeData
 
 
 class AbrasfXmlBuilder:
+    """Constrói estrutura XML ABRASF a partir de dados de NFSe."""
     def __init__(self) -> None:
         self.namespace = "http://www.abrasf.org.br/nfse.xsd"
         ET.register_namespace("", self.namespace)
 
     def build_tree(self, data: NFSeData) -> ET.ElementTree:
+        """Constrói árvore XML completa para uma NFSe.
+        
+        Args:
+            data: Dados da NFSe a serem convertidos em XML
+            
+        Returns:
+            ElementTree com estrutura XML ABRASF completa
+        """
         root = ET.Element("ListaNfse")
         root.append(self.build_comp_nfse(data))
         return ET.ElementTree(root)

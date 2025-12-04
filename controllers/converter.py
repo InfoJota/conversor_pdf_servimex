@@ -1,3 +1,9 @@
+"""Controller de conversão de NFSe PDF para XML.
+
+Orquestra o fluxo completo: leitura de PDF, parsing de dados e geração de XML.
+Implementa padrão MVC separando lógica de negócio da apresentação.
+"""
+
 from pathlib import Path
 from typing import List, Optional
 import xml.etree.ElementTree as ET
@@ -8,6 +14,11 @@ from services.xml_builder import AbrasfXmlBuilder
 
 
 class NFSeConverter:
+    """Conversor de lote de PDFs de NFSe para XML ABRASF.
+    
+    Processa múltiplos PDFs em um diretório e gera XMLs individuais
+    ou consolidados conforme configuração.
+    """
     def __init__(
         self,
         reader: PDFInvoiceReader,
@@ -19,6 +30,18 @@ class NFSeConverter:
         self.xml_builder = xml_builder
 
     def convert_directory(self, directory: Path, output_path: Optional[Path] = None) -> List[Path]:
+        """Converte todos os PDFs de um diretório para XML.
+        
+        Args:
+            directory: Diretório contendo os PDFs a converter
+            output_path: Caminho de saída (None = gera pasta PDF_Convertido)
+            
+        Returns:
+            Lista de caminhos dos XMLs gerados
+            
+        Raises:
+            FileNotFoundError: Se nenhum PDF for encontrado no diretório
+        """
         directory = Path(directory)
         pdf_files = sorted(directory.glob("*.pdf"))
         if not pdf_files:

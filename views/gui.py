@@ -1,3 +1,9 @@
+"""Interface gráfica Tkinter para conversão de NFSe PDF para XML.
+
+Fornece UI simples com seleção de pasta, feedback de progresso em tempo real
+e mensagens de conclusão.
+"""
+
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from pathlib import Path
@@ -7,6 +13,11 @@ from threading import Thread
 
 
 class ConverterGUI:
+    """Janela principal da aplicação de conversão de NFSe.
+    
+    Gerencia interface Tkinter com campo de pasta, botão de seleção,
+    botão de conversão e feedback de tempo/status.
+    """
     def __init__(self) -> None:
         self.window = tk.Tk()
         self.window.title("Conversor NFSe - PDF para XML")

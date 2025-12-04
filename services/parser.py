@@ -1,3 +1,9 @@
+"""Parser de NFSe do layout ServiMax.
+
+Extrai dados estruturados de texto de PDF de NFSe emitida pelo sistema ServiMax
+da Prefeitura de Santos/SP usando expressões regulares.
+"""
+
 import re
 from datetime import datetime
 from typing import Optional
@@ -6,6 +12,11 @@ from models.nfse import NFSeData, Prestador, ValoresServico
 
 
 class ServimaxParser:
+    """Parser especializado para NFSe do sistema ServiMax.
+    
+    Utiliza regex tolerante a variações de encoding e layout multi-coluna
+    para extrair campos obrigatórios da NFSe.
+    """
     VALOR_SERVICO_PATTERN = re.compile(
         r"Valor\s*(?:de|dos)\s*Servi\S*os\s*R\$[: ]*.*?([\d\.,]+)",
         flags=re.IGNORECASE | re.DOTALL,
@@ -16,6 +27,14 @@ class ServimaxParser:
         self.discriminacao = discriminacao
 
     def parse(self, content: str) -> NFSeData:
+        """Extrai dados estruturados de NFSe a partir do texto do PDF.
+        
+        Args:
+            content: Texto extraído do PDF da NFSe
+            
+        Returns:
+            Objeto NFSeData com todos os campos preenchidos
+        """
         numero = self._search(r"NFSe\s*(\d+)", content, fallback="0")
         codigo = self._search(r"C[oó]digo de Verifica[cç][aã]o\s*([\w\d]+)", content, fallback="XXXXXX")
         data_emissao = self._parse_data_emissao(content)

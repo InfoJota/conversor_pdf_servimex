@@ -1,3 +1,18 @@
+"""Ponto de entrada principal do Conversor NFSe ServiMax.
+
+Aplicação desktop que converte PDFs de NFSe do sistema ServiMax (Prefeitura
+de Santos/SP) para XML no padrão ABRASF, facilitando integração contábil.
+
+Arquitetura:
+    - Models: Estruturas de dados de domínio (NFSeData, Prestador, etc.)
+    - Services: Lógica de negócio (PDF reader, parser, XML builder)
+    - Controllers: Orquestração do fluxo de conversão
+    - Views: Interface gráfica Tkinter
+
+Uso:
+    python extrator_pdf.py
+"""
+
 from pathlib import Path
 from typing import Optional, Sequence
 
